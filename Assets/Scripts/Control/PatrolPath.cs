@@ -25,5 +25,34 @@ namespace RPG.Control
         {
             return transform.GetChild(index).position;
         }
+
+        #region CreateWaypoints
+        [SerializeField, Range(2, 5)] private int _waypointsCount = 0;
+
+        private void OnValidate()
+        {
+            CreateWaypoints();
+        }
+
+        private void CreateWaypoints()
+        {
+            if (_waypointsCount < transform.childCount)
+            {
+                _waypointsCount = transform.childCount;
+                return;
+            }
+
+            int currentChildCount = transform.childCount;
+            int waypointsToCreate = _waypointsCount - currentChildCount;
+
+            // Create new waypoints
+            for (int i = 0; i < waypointsToCreate; i++)
+            {
+                var newWaypoint = new GameObject($"Waypoint{i + currentChildCount + 1}");
+                newWaypoint.transform.position = transform.position;
+                newWaypoint.transform.parent = transform;
+            }
+        }
+        #endregion
     }
 }
