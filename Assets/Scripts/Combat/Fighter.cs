@@ -13,10 +13,12 @@ namespace RPG.Combat
         private Health _target;
         private float _timeSinceLastAttack = Mathf.Infinity;
         private Animator _animator;
+        private Mover _mover;
 
         private void Start()
         {
             _animator = GetComponent<Animator>();
+            _mover = GetComponent<Mover>();
         }
 
         private void Update()
@@ -27,12 +29,12 @@ namespace RPG.Combat
 
             if (GetIsInRange())
             {
-                GetComponent<Mover>().Cancel();
+                _mover.Cancel();
                 AttackBehaviour();
             }
             else
             {
-                GetComponent<Mover>().MoveTo(_target.transform.position);
+                _mover.MoveTo(_target.transform.position);
             }
         }
 
@@ -87,6 +89,7 @@ namespace RPG.Combat
         {
             StopAttack();
             _target = null;
+            _mover.Cancel();
         }
 
         private void StopAttack()

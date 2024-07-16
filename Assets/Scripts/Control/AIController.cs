@@ -7,22 +7,27 @@ namespace RPG.Control
 {
     public class AIController : MonoBehaviour
     {
-        [SerializeField] private PatrolPath _patrolPath;
-        [SerializeField] private float _chaseDistance;
-        [SerializeField] private float _suspicionTime;
-        [SerializeField] private float _waypointTolerance;
-        [SerializeField] private float _waypointDwellTime;
-        [SerializeField, Range(0, 1)] private float _patrolSpeedFraction = 0.2f;
-
+        [Header("Attack Behaviour")]
+        [SerializeField] private float _chaseDistance = 5f;
+        [SerializeField] private float _allowedDistanceDeparture = 30f;
         private Fighter _fighter;
-        private Health _health;
-        private Mover _mover;
         private GameObject _player;
 
-        private Vector3 _guardPosition;
+        [Header("Suspition Behaviour")]
+        [SerializeField] private float _suspicionTime = 5f;
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
+
+        [Header("Patrol Behaviour")]
+        [SerializeField] private PatrolPath _patrolPath;
+        [SerializeField] private float _waypointTolerance = 1f;
+        [SerializeField] private float _waypointDwellTime = 3f;
+        [SerializeField, Range(0, 1)] private float _patrolSpeedFraction = 0.2f;
+        private Vector3 _guardPosition;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
         private int _currentWaypointIndex = 0;
+        private Mover _mover;
+
+        private Health _health;
 
         private void Start()
         {
@@ -38,7 +43,8 @@ namespace RPG.Control
         {
             if (_health.IsDead) return;
 
-            if (InAttackRangeOfPlayer() && _fighter.CanAttack(_player))
+            if (InAttackRangeOfPlayer() && _fighter.CanAttack(_player) && 
+                !IsFarFromStartPosition(_guardPosition))
             {
                 AttackBehaviour();
             }
@@ -53,21 +59,38 @@ namespace RPG.Control
             UpdateTimers();
         }
 
+        #region AttackBehaviour
+        private bool InAttackRangeOfPlayer()
+        {
+            float distanceToPlayer = Vector3.Distance(_player.transform.position, transform.position);
+            return distanceToPlayer < _chaseDistance;
+        }
+
+        private bool IsFarFromStartPosition(Vector3 startPosition)
+        {
+            return Vector3.Distance(startPosition, transform.position) > _allowedDistanceDeparture;
+        }
+
         private void AttackBehaviour()
         {
             _timeSinceLastSawPlayer = 0;
             _fighter.Attack(_player);
         }
+        #endregion
 
+        #region SuspitionBehaviour
         private void SuspitionBehaviour()
         {
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
+        #endregion
+
+        #region PatrolBehaviour
         private void PatrolBehaviour()
         {
             Vector3 nextPosition = _guardPosition;
 
-            if (_patrolPath)
+            if (_patrolPath != null && _patrolPath.Waypoints.Length > 0)
             {
                 if (AtWaypoint())
                 {
@@ -88,6 +111,7 @@ namespace RPG.Control
             float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
             return distanceToWaypoint < _waypointTolerance;
         }
+
         private void CycleWaypoint()
         {
             _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);
@@ -97,17 +121,12 @@ namespace RPG.Control
         {
             return _patrolPath.GetWaypoint(_currentWaypointIndex);
         }
+        #endregion
 
         private void UpdateTimers()
         {
             _timeSinceLastSawPlayer += Time.deltaTime;
             _timeSinceArrivedAtWaypoint += Time.deltaTime;
-        }
-
-        private bool InAttackRangeOfPlayer()
-        {
-            float distanceToPlayer = Vector3.Distance(_player.transform.position, transform.position);
-            return distanceToPlayer < _chaseDistance;
         }
 
         #region Debug
