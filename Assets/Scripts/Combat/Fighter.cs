@@ -6,20 +6,34 @@ namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField] private float _weaponRange = 2f;
         [SerializeField] private float _timeBetweenAttacks = 1f;
-        [SerializeField] private float _weaponDamage = 10f;
 
         private Health _target;
         private float _timeSinceLastAttack = Mathf.Infinity;
         private Animator _animator;
         private Mover _mover;
 
+        [Header("Weapons")]
+        [SerializeField] private Weapon _defaultWeapon;
+        [SerializeField] private Transform _leftHandTransform;
+        [SerializeField] private Transform _rightHandTransform;
+        private Weapon _currentWeapon;
+
         private void Start()
         {
             _animator = GetComponent<Animator>();
             _mover = GetComponent<Mover>();
+            EquipWeapon(_defaultWeapon);
         }
+
+        #region Weapons
+        public void EquipWeapon(Weapon weapon)
+        {
+            _currentWeapon = weapon;
+            var animator = GetComponent<Animator>();
+            weapon.Spawn(_leftHandTransform, _rightHandTransform, animator);
+        }
+        #endregion
 
         private void Update()
         {
@@ -27,7 +41,7 @@ namespace RPG.Combat
 
             if (!_target || _target.IsDead) return;
 
-            if (GetIsInRange())
+            if (IsInAttackRange())
             {
                 _mover.Cancel();
                 AttackBehaviour();
@@ -63,13 +77,11 @@ namespace RPG.Combat
         private void Hit()
         {
             if (!_target) return;
-            _target.TakeDamage(_weaponDamage);
+            _target.TakeDamage(_currentWeapon.Damage);
         }
 
-        private bool GetIsInRange()
-        {
-            return Vector3.Distance(transform.position, _target.transform.position) < _weaponRange;
-        }
+        private bool IsInAttackRange() =>
+            Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.AttackRange;
 
         public bool CanAttack(GameObject combatTarget)
         {

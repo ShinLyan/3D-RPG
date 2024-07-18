@@ -13,7 +13,7 @@ namespace RPG.SceneManagement
             A, B, C, D, E
         }
 
-        [SerializeField] private int _sceneToLoad;
+        [SerializeField] private int _sceneToLoad;  //  HACK
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private DestinationIdentifier _destination;
 
@@ -36,11 +36,20 @@ namespace RPG.SceneManagement
             SwitchPlayerMovement(false); // Чтобы персонаж не двигался до загрузки другой сцены
             yield return Fader.Instance.FadeOut(_fadeOutTime);
 
+            SavingWrapper.Save();
+
             yield return SceneManager.LoadSceneAsync(_sceneToLoad);
+
+            SavingWrapper.Load();
+
             UpdatePlayerPosition(GetOtherPortal());
             SwitchPlayerMovement(false); // Чтобы персонаж не двигался после загрузки сцены
+
+            SavingWrapper.Save();
+
             yield return new WaitForSeconds(_fadeWaitTime);
             yield return Fader.Instance.FadeIn(_fadeInTime);
+
             SwitchPlayerMovement(true);
 
             Destroy(gameObject);
