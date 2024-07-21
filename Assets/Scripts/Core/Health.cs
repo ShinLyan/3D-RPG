@@ -34,15 +34,9 @@ namespace RPG.Core
         }
 
         #region Saving
-        public object CaptureState()
-        {
-            return _healthPoints;
-        }
+        public object CaptureState() => _healthPoints;
 
-        public void RestoreState(object state)
-        {
-            HealthPoints = (float)state;
-        }
+        public void RestoreState(object state) => HealthPoints = (float)state;
         #endregion
     }
 }

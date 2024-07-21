@@ -1,13 +1,13 @@
 using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
 using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] private float _timeBetweenAttacks = 1f;
-
         private Health _target;
         private float _timeSinceLastAttack = Mathf.Infinity;
         private Animator _animator;
@@ -23,7 +23,8 @@ namespace RPG.Combat
         {
             _animator = GetComponent<Animator>();
             _mover = GetComponent<Mover>();
-            EquipWeapon(_defaultWeapon);
+
+            if (!_currentWeapon) EquipWeapon(_defaultWeapon);
         }
 
         #region Weapons
@@ -33,6 +34,8 @@ namespace RPG.Combat
             var animator = GetComponent<Animator>();
             weapon.Spawn(_leftHandTransform, _rightHandTransform, animator);
         }
+
+        private Weapon LoadWeapon(string weaponName) => Resources.Load<Weapon>(weaponName);
         #endregion
 
         private void Update()
@@ -73,12 +76,23 @@ namespace RPG.Combat
             _animator.SetTrigger(TriggerName2);
         }
 
-        // Animation Event
+        #region Animation Events
         private void Hit()
         {
             if (!_target) return;
-            _target.TakeDamage(_currentWeapon.Damage);
+
+            if (_currentWeapon.HasProjectTile())
+            {
+                _currentWeapon.LaunchProjecttile(_leftHandTransform, _rightHandTransform, _target);
+            }
+            else
+            {
+                _target.TakeDamage(_currentWeapon.Damage);
+            }
         }
+
+        private void Shoot() => Hit();
+        #endregion
 
         private bool IsInAttackRange() =>
             Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.AttackRange;
@@ -112,5 +126,15 @@ namespace RPG.Combat
             const string TriggerName2 = "StopAttack";
             _animator.SetTrigger(TriggerName2);
         }
+
+        #region Saving
+        public object CaptureState() => _currentWeapon.name;
+
+        public void RestoreState(object state)
+        {
+            var weaponName = (string)state;
+            EquipWeapon(LoadWeapon(weaponName));
+        }
+        #endregion
     }
 }
