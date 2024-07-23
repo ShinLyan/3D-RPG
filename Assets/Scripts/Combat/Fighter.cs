@@ -1,3 +1,4 @@
+using RPG.Attributes;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
@@ -8,10 +9,10 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] private float _timeBetweenAttacks = 1f;
-        private Health _target;
         private float _timeSinceLastAttack = Mathf.Infinity;
         private Animator _animator;
         private Mover _mover;
+        public Health Target { get; private set; }
 
         [Header("Weapons")]
         [SerializeField] private Weapon _defaultWeapon;
@@ -42,7 +43,7 @@ namespace RPG.Combat
         {
             _timeSinceLastAttack += Time.deltaTime;
 
-            if (!_target || _target.IsDead) return;
+            if (!Target || Target.IsDead) return;
 
             if (IsInAttackRange())
             {
@@ -51,13 +52,16 @@ namespace RPG.Combat
             }
             else
             {
-                _mover.MoveTo(_target.transform.position);
+                _mover.MoveTo(Target.transform.position);
             }
         }
 
+        private bool IsInAttackRange() =>
+            Vector3.Distance(transform.position, Target.transform.position) < _currentWeapon.AttackRange;
+
         private void AttackBehaviour()
         {
-            transform.LookAt(_target.transform);
+            transform.LookAt(Target.transform);
 
             if (_timeSinceLastAttack > _timeBetweenAttacks)
             {
@@ -79,23 +83,21 @@ namespace RPG.Combat
         #region Animation Events
         private void Hit()
         {
-            if (!_target) return;
+            if (!Target) return;
 
             if (_currentWeapon.HasProjectTile())
             {
-                _currentWeapon.LaunchProjecttile(_leftHandTransform, _rightHandTransform, _target);
+                _currentWeapon.LaunchProjecttile(
+                    _leftHandTransform, _rightHandTransform, Target, gameObject);
             }
             else
             {
-                _target.TakeDamage(_currentWeapon.Damage);
+                Target.TakeDamage(gameObject, _currentWeapon.Damage);
             }
         }
 
         private void Shoot() => Hit();
         #endregion
-
-        private bool IsInAttackRange() =>
-            Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.AttackRange;
 
         public bool CanAttack(GameObject combatTarget)
         {
@@ -108,13 +110,13 @@ namespace RPG.Combat
         public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            _target = combatTarget.GetComponent<Health>();
+            Target = combatTarget.GetComponent<Health>();
         }
 
         public void Cancel()
         {
             StopAttack();
-            _target = null;
+            Target = null;
             _mover.Cancel();
         }
 

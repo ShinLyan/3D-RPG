@@ -1,4 +1,4 @@
-using RPG.Core;
+using RPG.Attributes;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ namespace RPG.Combat
         private const float LifeTime = 5f;
         private Health _target;
         private float _damage;
+        private GameObject _instigator;
 
         private void Start()
         {
@@ -44,7 +45,7 @@ namespace RPG.Combat
         {
             if (other.GetComponent<Health>() != _target || _target.IsDead) return;
 
-            _target.TakeDamage(_damage);
+            _target.TakeDamage(_instigator, _damage);
             if (_hitEffect) SpawnHitEffect();
             HideProjectile();
             _target = null;
@@ -74,9 +75,10 @@ namespace RPG.Combat
             }
         }
 
-        public void SetTarget(Health target, float damage)
+        public void SetTarget(Health target, GameObject instigator, float damage)
         {
             _target = target;
+            _instigator = instigator;
             _damage = damage;
 
             Destroy(gameObject, LifeTime);

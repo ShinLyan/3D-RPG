@@ -13,7 +13,7 @@ namespace RPG.SceneManagement
             A, B, C, D, E
         }
 
-        [SerializeField] private int _sceneToLoad;  //  HACK
+        [SerializeField] private int _sceneToLoad;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private DestinationIdentifier _destination;
 
@@ -25,7 +25,6 @@ namespace RPG.SceneManagement
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-
             StartCoroutine(Transition());
         }
 
@@ -34,6 +33,7 @@ namespace RPG.SceneManagement
             DontDestroyOnLoad(gameObject);
 
             SwitchPlayerMovement(false); // Чтобы персонаж не двигался до загрузки другой сцены
+
             yield return Fader.Instance.FadeOut(_fadeOutTime);
 
             SavingWrapper.Save();

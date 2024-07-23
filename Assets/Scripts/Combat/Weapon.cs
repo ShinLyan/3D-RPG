@@ -1,4 +1,4 @@
-using RPG.Core;
+using RPG.Attributes;
 using UnityEngine;
 
 namespace RPG.Combat
@@ -53,11 +53,11 @@ namespace RPG.Combat
 
         public bool HasProjectTile() => _projectilePrefab != null;
 
-        public void LaunchProjecttile(Transform leftHand, Transform rightHand, Health target)
+        public void LaunchProjecttile(Transform leftHand, Transform rightHand, Health target, GameObject instigator)
         {
             Transform handTransform = _isRightHanded ? rightHand : leftHand;
             var projectileInstance = Instantiate(_projectilePrefab, handTransform.position, Quaternion.identity);
-            projectileInstance.SetTarget(target, Damage);
+            projectileInstance.SetTarget(target, instigator, Damage);
         }
     }
 }

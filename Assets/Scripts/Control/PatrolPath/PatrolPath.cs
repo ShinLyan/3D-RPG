@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace RPG.Control
@@ -9,7 +8,7 @@ namespace RPG.Control
 
         public Waypoint[] Waypoints => _waypoints;
 
-        [Serializable]
+        [System.Serializable]
         public struct Waypoint
         {
             public Vector3 position;

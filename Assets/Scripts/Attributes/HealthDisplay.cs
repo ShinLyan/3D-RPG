@@ -1,0 +1,22 @@
+using TMPro;
+using UnityEngine;
+
+namespace RPG.Attributes
+{
+    public class HealthDisplay : MonoBehaviour
+    {
+        [SerializeField] private TMP_Text _healthText;
+
+        private Health _health;
+
+        private void Awake()
+        {
+            _health = GameObject.FindWithTag("Player").GetComponent<Health>();
+        }
+
+        private void Update()
+        {
+            _healthText.text = $"Health: {(int)_health.GetPercentage()}%";
+        }
+    }
+}

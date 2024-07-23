@@ -1,3 +1,4 @@
+using RPG.Attributes;
 using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
@@ -8,7 +9,7 @@ namespace RPG.Control
     public class AIController : MonoBehaviour
     {
         [Header("Attack Behaviour")]
-        [SerializeField] private float _chaseDistance = 5f;
+        [SerializeField, Range(1f, 10f)] private float _chaseDistance = 5f;
         [SerializeField] private float _allowedDistanceDeparture = 30f;
         private Fighter _fighter;
         private GameObject _player;
@@ -43,7 +44,7 @@ namespace RPG.Control
         {
             if (_health.IsDead) return;
 
-            if (InAttackRangeOfPlayer() && _fighter.CanAttack(_player) && 
+            if (InAttackRangeOfPlayer() && _fighter.CanAttack(_player) &&
                 !IsFarFromStartPosition(_guardPosition))
             {
                 AttackBehaviour();
