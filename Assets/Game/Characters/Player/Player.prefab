@@ -317,6 +317,10 @@ PrefabInstance:
       propertyPath: _healthPoints
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _regenerationPercentage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1267225401341109349, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
       propertyPath: uniqueIdentifier
       value: Player
@@ -377,6 +381,14 @@ PrefabInstance:
       propertyPath: _characterClass
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5594689766049090730, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _shouldUseModifiers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594689766049090730, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _levelUpParticleEffect
+      value: 
+      objectReference: {fileID: 8390430358954955812, guid: cec96573f1c276c429b8444f983acd79, type: 3}
     - target: {fileID: 7636996090831486225, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
       propertyPath: _defaultWeapon
       value: 

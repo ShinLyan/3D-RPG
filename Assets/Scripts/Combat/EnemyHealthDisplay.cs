@@ -17,7 +17,7 @@ namespace RPG.Combat
         private void Update()
         {
             _enemyHealthText.text = _fighter.Target ?
-                $"Enemy: {(int)_fighter.Target.GetPercentage()}%" : $"N/A";
+                $"Enemy: {_fighter.Target.HealthPoints}/{_fighter.Target.MaxHealthPoints}" : $"N/A";
         }
     }
 }

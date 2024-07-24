@@ -8,16 +8,18 @@ namespace RPG.Combat
     {
         [SerializeField] private GameObject _equippedPrefab;
         [SerializeField] private AnimatorOverrideController _animatorOverrideController;
-
-        [SerializeField] private float _damage;
-        [SerializeField] private float _attackRange;
         [SerializeField] private bool _isRightHanded = true;
-
         [SerializeField] private Projectile _projectilePrefab;
+
+        [Header("Weapon Parameters")]
+        [SerializeField] private float _damage;
+        [SerializeField] private float _percentageDamageBonus;
+        [SerializeField] private float _attackRange;
 
         private const string WeaponName = "Weapon";
 
         public float Damage => _damage;
+        public float PercentageDamageBonus => _percentageDamageBonus;
         public float AttackRange => _attackRange;
 
         public void Spawn(Transform leftHand, Transform rightHand, Animator animator)
@@ -53,11 +55,12 @@ namespace RPG.Combat
 
         public bool HasProjectTile() => _projectilePrefab != null;
 
-        public void LaunchProjecttile(Transform leftHand, Transform rightHand, Health target, GameObject instigator)
+        public void LaunchProjecttile(Transform leftHand, Transform rightHand,
+            Health target, GameObject instigator, float calculatedDamage)
         {
             Transform handTransform = _isRightHanded ? rightHand : leftHand;
             var projectileInstance = Instantiate(_projectilePrefab, handTransform.position, Quaternion.identity);
-            projectileInstance.SetTarget(target, instigator, Damage);
+            projectileInstance.SetTarget(target, instigator, calculatedDamage);
         }
     }
 }

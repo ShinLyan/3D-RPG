@@ -7,24 +7,33 @@ namespace RPG.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        private float _healthPoints = -1f;
+        [SerializeField, Range(0, 100)] private int _regenerationPercentage;
         private BaseStats _baseStats;
 
+        public float HealthPoints { get; private set; } = -1f;
+        public float MaxHealthPoints => _baseStats.GetStat(Stat.Health);
+
+        public float HealthPercentage => 100 * HealthPoints / MaxHealthPoints;
         public bool IsDead { get; private set; }
 
         private void Start()
         {
             _baseStats = GetComponent<BaseStats>();
-            if (_healthPoints < 0)
-            {
-                _healthPoints = _baseStats.GetStat(Stat.Health);
-            }
+            if (_baseStats) _baseStats.OnLevelUp += RegenerateHealth;
+
+            if (HealthPoints < 0) HealthPoints = _baseStats.GetStat(Stat.Health);
+        }
+
+        private void RegenerateHealth()
+        {
+            float regenHP = _baseStats.GetStat(Stat.Health) * _regenerationPercentage / 100;
+            HealthPoints = Mathf.Max(HealthPoints, regenHP);
         }
 
         public void TakeDamage(GameObject instigator, float damage)
         {
-            _healthPoints = Mathf.Max(_healthPoints - damage, 0);
-            if (_healthPoints == 0)
+            HealthPoints = Mathf.Max(HealthPoints - damage, 0);
+            if (HealthPoints == 0)
             {
                 Die();
                 AwardExperience(instigator);
@@ -49,17 +58,13 @@ namespace RPG.Attributes
             experience.GainExperience(_baseStats.GetStat(Stat.ExperienceReward));
         }
 
-        #region Display
-        public float GetPercentage() => 100 * _healthPoints / _baseStats.GetStat(Stat.Health);
-        #endregion
-
         #region Saving
-        public object CaptureState() => _healthPoints;
+        public object CaptureState() => HealthPoints;
 
         public void RestoreState(object state)
         {
-            _healthPoints = (float)state;
-            if (_healthPoints == 0) Die();
+            HealthPoints = (float)state;
+            if (HealthPoints == 0) Die();
         }
         #endregion
     }

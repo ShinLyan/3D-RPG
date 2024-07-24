@@ -9,7 +9,6 @@ namespace RPG.Combat
         [SerializeField] private float _speed;
         [SerializeField] private bool _isHoming;
         [SerializeField] private GameObject _hitEffect;
-
         private const float LifeTime = 5f;
         private Health _target;
         private float _damage;

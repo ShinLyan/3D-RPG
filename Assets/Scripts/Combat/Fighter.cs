@@ -2,11 +2,13 @@ using RPG.Attributes;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
+using RPG.Stats;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [SerializeField] private float _timeBetweenAttacks = 1f;
         private float _timeSinceLastAttack = Mathf.Infinity;
@@ -85,14 +87,15 @@ namespace RPG.Combat
         {
             if (!Target) return;
 
+            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
             if (_currentWeapon.HasProjectTile())
             {
                 _currentWeapon.LaunchProjecttile(
-                    _leftHandTransform, _rightHandTransform, Target, gameObject);
+                    _leftHandTransform, _rightHandTransform, Target, gameObject, damage);
             }
             else
             {
-                Target.TakeDamage(gameObject, _currentWeapon.Damage);
+                Target.TakeDamage(gameObject, damage);
             }
         }
 
@@ -129,7 +132,25 @@ namespace RPG.Combat
             _animator.SetTrigger(TriggerName2);
         }
 
-        #region Saving
+        #region IModifierProvider
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return _currentWeapon.Damage;
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return _currentWeapon.PercentageDamageBonus;
+            }
+        }
+        #endregion
+
+        #region ISaveable
         public object CaptureState() => _currentWeapon.name;
 
         public void RestoreState(object state)
