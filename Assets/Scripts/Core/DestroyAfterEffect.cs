@@ -6,17 +6,14 @@ namespace RPG.Core
     {
         private ParticleSystem _particleSystem;
 
-        private void Start()
+        private void Awake()
         {
             _particleSystem = GetComponent<ParticleSystem>();
         }
 
         private void Update()
         {
-            if (_particleSystem && !_particleSystem.IsAlive())
-            {
-                Destroy(gameObject);
-            }
+            if (_particleSystem && !_particleSystem.IsAlive()) Destroy(gameObject);
         }
     }
 }

@@ -1,6 +1,7 @@
 using RPG.Core;
 using RPG.Saving;
 using RPG.Stats;
+using RPG.Utils;
 using UnityEngine;
 
 namespace RPG.Attributes
@@ -10,18 +11,38 @@ namespace RPG.Attributes
         [SerializeField, Range(0, 100)] private int _regenerationPercentage;
         private BaseStats _baseStats;
 
-        public float HealthPoints { get; private set; } = -1f;
+        private LazyValue<float> _healthPoints;
+
+        public float HealthPoints
+        {
+            get => _healthPoints.Value;
+            private set => _healthPoints.Value = value;
+        }
+
         public float MaxHealthPoints => _baseStats.GetStat(Stat.Health);
 
         public float HealthPercentage => 100 * HealthPoints / MaxHealthPoints;
         public bool IsDead { get; private set; }
 
-        private void Start()
+        private void Awake()
         {
             _baseStats = GetComponent<BaseStats>();
-            if (_baseStats) _baseStats.OnLevelUp += RegenerateHealth;
+            _healthPoints = new(() => _baseStats.GetStat(Stat.Health));
+        }
 
-            if (HealthPoints < 0) HealthPoints = _baseStats.GetStat(Stat.Health);
+        private void OnEnable()
+        {
+            if (_baseStats) _baseStats.OnLevelUp += RegenerateHealth;
+        }
+
+        private void OnDisable()
+        {
+            if (_baseStats) _baseStats.OnLevelUp -= RegenerateHealth;
+        }
+
+        private void Start()
+        {
+            _healthPoints.ForceInit();
         }
 
         private void RegenerateHealth()

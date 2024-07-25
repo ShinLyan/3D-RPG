@@ -3,6 +3,7 @@ using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
 using RPG.Stats;
+using RPG.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,26 +21,25 @@ namespace RPG.Combat
         [SerializeField] private Weapon _defaultWeapon;
         [SerializeField] private Transform _leftHandTransform;
         [SerializeField] private Transform _rightHandTransform;
-        private Weapon _currentWeapon;
+        private LazyValue<Weapon> _currentWeapon;
 
-        private void Start()
+        private Weapon CurrentWeapon
+        {
+            get => _currentWeapon.Value;
+            set => _currentWeapon.Value = value;
+        }
+
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
             _mover = GetComponent<Mover>();
-
-            if (!_currentWeapon) EquipWeapon(_defaultWeapon);
+            _currentWeapon = new(SetupDefaultWeapon);
         }
 
-        #region Weapons
-        public void EquipWeapon(Weapon weapon)
+        private void Start()
         {
-            _currentWeapon = weapon;
-            var animator = GetComponent<Animator>();
-            weapon.Spawn(_leftHandTransform, _rightHandTransform, animator);
+            _currentWeapon.ForceInit();
         }
-
-        private Weapon LoadWeapon(string weaponName) => Resources.Load<Weapon>(weaponName);
-        #endregion
 
         private void Update()
         {
@@ -58,8 +58,30 @@ namespace RPG.Combat
             }
         }
 
+        #region Weapons
+        private Weapon SetupDefaultWeapon()
+        {
+            AttachWeapon(_defaultWeapon);
+            return _defaultWeapon;
+        }
+
+        private void AttachWeapon(Weapon weapon)
+        {
+            var animator = GetComponent<Animator>();
+            weapon.Spawn(_leftHandTransform, _rightHandTransform, animator);
+        }
+
+        public void EquipWeapon(Weapon weapon)
+        {
+            CurrentWeapon = weapon;
+            AttachWeapon(weapon);
+        }
+
+        private Weapon LoadWeapon(string weaponName) => Resources.Load<Weapon>(weaponName);
+        #endregion
+
         private bool IsInAttackRange() =>
-            Vector3.Distance(transform.position, Target.transform.position) < _currentWeapon.AttackRange;
+            Vector3.Distance(transform.position, Target.transform.position) < CurrentWeapon.AttackRange;
 
         private void AttackBehaviour()
         {
@@ -88,9 +110,9 @@ namespace RPG.Combat
             if (!Target) return;
 
             float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
-            if (_currentWeapon.HasProjectTile())
+            if (CurrentWeapon.HasProjectTile())
             {
-                _currentWeapon.LaunchProjecttile(
+                CurrentWeapon.LaunchProjecttile(
                     _leftHandTransform, _rightHandTransform, Target, gameObject, damage);
             }
             else
@@ -137,7 +159,7 @@ namespace RPG.Combat
         {
             if (stat == Stat.Damage)
             {
-                yield return _currentWeapon.Damage;
+                yield return CurrentWeapon.Damage;
             }
         }
 
@@ -145,13 +167,13 @@ namespace RPG.Combat
         {
             if (stat == Stat.Damage)
             {
-                yield return _currentWeapon.PercentageDamageBonus;
+                yield return CurrentWeapon.PercentageDamageBonus;
             }
         }
         #endregion
 
         #region ISaveable
-        public object CaptureState() => _currentWeapon.name;
+        public object CaptureState() => CurrentWeapon.name;
 
         public void RestoreState(object state)
         {

@@ -2,12 +2,14 @@ using RPG.Attributes;
 using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
+using RPG.Utils;
 using UnityEngine;
 
 namespace RPG.Control
 {
     public class AIController : MonoBehaviour
     {
+        #region Fields and Properties
         [Header("Attack Behaviour")]
         [SerializeField, Range(1f, 10f)] private float _chaseDistance = 5f;
         [SerializeField] private float _allowedDistanceDeparture = 30f;
@@ -23,21 +25,32 @@ namespace RPG.Control
         [SerializeField] private float _waypointTolerance = 1f;
         [SerializeField] private float _waypointDwellTime = 3f;
         [SerializeField, Range(0, 1)] private float _patrolSpeedFraction = 0.2f;
-        private Vector3 _guardPosition;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
         private int _currentWaypointIndex = 0;
         private Mover _mover;
+        private LazyValue<Vector3> _guardPosition;
+
+        public Vector3 GuardPosition
+        {
+            get => _guardPosition.Value;
+            set => _guardPosition.Value = value;
+        }
 
         private Health _health;
+        #endregion
 
-        private void Start()
+        private void Awake()
         {
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _mover = GetComponent<Mover>();
             _player = GameObject.FindWithTag("Player");
+            _guardPosition = new(() => transform.position);
+        }
 
-            _guardPosition = transform.position;
+        private void Start()
+        {
+            _guardPosition.ForceInit();
         }
 
         private void Update()
@@ -45,7 +58,7 @@ namespace RPG.Control
             if (_health.IsDead) return;
 
             if (InAttackRangeOfPlayer() && _fighter.CanAttack(_player) &&
-                !IsFarFromStartPosition(_guardPosition))
+                !IsFarFromStartPosition(GuardPosition))
             {
                 AttackBehaviour();
             }
@@ -89,7 +102,7 @@ namespace RPG.Control
         #region PatrolBehaviour
         private void PatrolBehaviour()
         {
-            Vector3 nextPosition = _guardPosition;
+            Vector3 nextPosition = GuardPosition;
 
             if (_patrolPath != null && _patrolPath.Waypoints.Length > 0)
             {

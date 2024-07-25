@@ -5,7 +5,7 @@ namespace RPG.Combat
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _enemyHealthText; // HACK: удалить класс, соединить с HEALTHDISPLAY
+        [SerializeField] private TMP_Text _enemyHealthText;
 
         private Fighter _fighter;
 

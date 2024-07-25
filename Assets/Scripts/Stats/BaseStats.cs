@@ -1,4 +1,5 @@
 using RPG.Core;
+using RPG.Utils;
 using System;
 using UnityEngine;
 
@@ -11,23 +12,43 @@ namespace RPG.Stats
         [SerializeField] private Progression _progression;
         [SerializeField] private DestroyAfterEffect _levelUpParticleEffect;
         [SerializeField] private bool _shouldUseModifiers;
-        private int _currentLevel;
+        private Experience _experience;
+        private LazyValue<int> _currentLevel;
+
+        public int CurrentLevel
+        {
+            get => _currentLevel.Value;
+            private set => _currentLevel.Value = value;
+        }
 
         public event Action OnLevelUp;
 
+        private void Awake()
+        {
+            _experience = GetComponent<Experience>();
+            _currentLevel = new(CalculateLevel);
+        }
+
+        private void OnEnable()
+        {
+            if (_experience) _experience.OnExperienceGained += UpdateLevel;
+        }
+
+        private void OnDisable()
+        {
+            if (_experience) _experience.OnExperienceGained -= UpdateLevel;
+        }
+
         private void Start()
         {
-            _currentLevel = CalculateLevel();
-            var experience = GetComponent<Experience>();
-            if (experience) experience.OnExperienceGained += UpdateLevel;
+            _currentLevel.ForceInit();
         }
 
         private int CalculateLevel()
         {
-            var experience = GetComponent<Experience>();
-            if (!experience) return _startingLevel;
+            if (!_experience) return _startingLevel;
 
-            float currentXP = experience.ExperiencePoints;
+            float currentXP = _experience.ExperiencePoints;
             int penultimateLevel = _progression.GetLevelsCount(Stat.ExperienceToLevelUp, _characterClass);
             for (int level = 1; level <= penultimateLevel; level++)
             {
@@ -40,9 +61,9 @@ namespace RPG.Stats
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
-            if (newLevel > _currentLevel)
+            if (newLevel > CurrentLevel)
             {
-                _currentLevel = newLevel;
+                CurrentLevel = newLevel;
                 OnLevelUp();
                 LevelUpEffect();
             }
@@ -56,7 +77,7 @@ namespace RPG.Stats
         public float GetStat(Stat stat) => !_shouldUseModifiers ? GetBaseStat(stat) :
             (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat) / 100);
 
-        private float GetBaseStat(Stat stat) => _progression.GetStat(stat, _characterClass, GetLevel());
+        private float GetBaseStat(Stat stat) => _progression.GetStat(stat, _characterClass, CurrentLevel);
 
         private float GetAdditiveModifier(Stat stat)
         {
@@ -83,7 +104,5 @@ namespace RPG.Stats
             }
             return totalPercentage;
         }
-
-        public int GetLevel() => _currentLevel < 1 ? CalculateLevel() : _currentLevel;
     }
 }

@@ -9,10 +9,10 @@ namespace RPG.Combat
         [SerializeField] private float _speed;
         [SerializeField] private bool _isHoming;
         [SerializeField] private GameObject _hitEffect;
-        private const float LifeTime = 5f;
         private Health _target;
         private float _damage;
         private GameObject _instigator;
+        private const float LifeTime = 5f;
 
         private void Start()
         {
@@ -21,7 +21,7 @@ namespace RPG.Combat
 
         private void AimAtTarget(Transform target)
         {
-            transform.LookAt(GetAimLocation(target.transform));
+            transform.LookAt(GetAimLocation(target));
         }
 
         private Vector3 GetAimLocation(Transform target)
