@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 178985767709742496}
   - component: {fileID: 178985767709742499}
   - component: {fileID: 178985767709742498}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 7120461124674196900}
   - component: {fileID: 7120461124674908344}
   - component: {fileID: 178985767920233653}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Prop_Crate_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 7120461125363149607}
   - component: {fileID: 7120461125361684027}
   - component: {fileID: 178985768372195888}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Prop_Crate_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 7120461123709285935}
   - component: {fileID: 7120461123710440243}
   - component: {fileID: 178985768817577784}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Prop_Crate_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,8 +424,6 @@ Transform:
   - {fileID: 178985767709742496}
   - {fileID: 178985769256390021}
   - {fileID: 178985768926999427}
-  - {fileID: 178985768981488074}
-  - {fileID: 178985769806718123}
   - {fileID: 178985768697008326}
   - {fileID: 178985768030510887}
   - {fileID: 178985769516067298}
@@ -441,12 +439,13 @@ Transform:
   - {fileID: 178985767842183378}
   - {fileID: 178985768922488654}
   - {fileID: 178985769323638151}
-  - {fileID: 178985768398395300}
+  - {fileID: 1766263173218665966}
   - {fileID: 178985768836233841}
   - {fileID: 178985768714301644}
   - {fileID: 178985768771555882}
   - {fileID: 178985769360104077}
   - {fileID: 178985768309160324}
+  - {fileID: 1531290624281996285}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &178985769819780243
@@ -461,7 +460,7 @@ GameObject:
   - component: {fileID: 7120461125436205483}
   - component: {fileID: 7120461125435296951}
   - component: {fileID: 178985769819780255}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Prop_Crate_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -549,6 +548,183 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.38300002, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &469295662731071123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1766263173218665966}
+  - component: {fileID: 7475196280490553883}
+  m_Layer: 6
+  m_Name: 2_Storey_Building
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1766263173218665966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469295662731071123}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.092577, y: 9.213379, z: 23.987335}
+  m_LocalScale: {x: 1.3124, y: 1.3124, z: 1.3124}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 178985768398395300}
+  - {fileID: 178985768981488074}
+  - {fileID: 178985769806718123}
+  m_Father: {fileID: 178985768962339786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7475196280490553883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469295662731071123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
+--- !u!1 &5175072593602956609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1531290624281996285}
+  - component: {fileID: 7477130128645994944}
+  - component: {fileID: 2153171196275056777}
+  - component: {fileID: 4702074246427521228}
+  - component: {fileID: 6660216354846798800}
+  m_Layer: 4
+  m_Name: Water
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1531290624281996285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5175072593602956609}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.5, z: 10}
+  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 178985768962339786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7477130128645994944
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5175072593602956609}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2153171196275056777
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5175072593602956609}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9045494f93452344d811e0d183904816, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4702074246427521228
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5175072593602956609}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!208 &6660216354846798800
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5175072593602956609}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5, y: 0.5, z: 5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7120461123532149642
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,12 +736,12 @@ GameObject:
   - component: {fileID: 178985768926999427}
   - component: {fileID: 7120461123533179588}
   - component: {fileID: 7120461123534234058}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Hut_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985768926999427
 Transform:
@@ -643,7 +819,7 @@ GameObject:
   - component: {fileID: 178985768922488654}
   - component: {fileID: 7120461123545706283}
   - component: {fileID: 7120461123546793349}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Fence_02 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,12 +902,12 @@ GameObject:
   - component: {fileID: 178985768981488074}
   - component: {fileID: 7120461123554365009}
   - component: {fileID: 7120461123554934301}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Village_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985768981488074
 Transform:
@@ -742,11 +918,11 @@ Transform:
   m_GameObject: {fileID: 7120461123553186405}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.6943479, z: -0, w: -0.71963954}
-  m_LocalPosition: {x: 13.35, y: 6.2063766, z: 25.99}
-  m_LocalScale: {x: 1, y: 1, z: 1.3445}
+  m_LocalPosition: {x: 0.19614707, y: -2.291224, z: 1.5259559}
+  m_LocalScale: {x: 0.7619629, y: 0.76196283, z: 1.024459}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 178985768962339786}
+  m_Father: {fileID: 1766263173218665966}
   m_LocalEulerAnglesHint: {x: 0, y: -447.951, z: 0}
 --- !u!33 &7120461123554365009
 MeshFilter:
@@ -809,12 +985,12 @@ GameObject:
   - component: {fileID: 178985768836233841}
   - component: {fileID: 7120461123694319084}
   - component: {fileID: 7120461123694945696}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Village_02 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985768836233841
 Transform:
@@ -892,7 +1068,7 @@ GameObject:
   - component: {fileID: 178985769703210749}
   - component: {fileID: 7120461123720004552}
   - component: {fileID: 7120461123721062598}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Hut_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -975,7 +1151,7 @@ GameObject:
   - component: {fileID: 178985769256390021}
   - component: {fileID: 7120461123881694402}
   - component: {fileID: 7120461123880640460}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Hut_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1058,7 +1234,7 @@ GameObject:
   - component: {fileID: 178985768714301644}
   - component: {fileID: 7120461123991558657}
   - component: {fileID: 7120461123990139055}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Fence_02 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,12 +1317,12 @@ GameObject:
   - component: {fileID: 178985769124086296}
   - component: {fileID: 7120461124015746439}
   - component: {fileID: 7120461124016299467}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Village_02 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985769124086296
 Transform:
@@ -1224,7 +1400,7 @@ GameObject:
   - component: {fileID: 178985769516067298}
   - component: {fileID: 7120461124088631459}
   - component: {fileID: 7120461124089691053}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Hut_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1307,7 +1483,7 @@ GameObject:
   - component: {fileID: 178985769360104077}
   - component: {fileID: 7120461124265500122}
   - component: {fileID: 7120461124264605556}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Fence_02 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1390,12 +1566,12 @@ GameObject:
   - component: {fileID: 178985769806718123}
   - component: {fileID: 7120461124398467894}
   - component: {fileID: 7120461124396940154}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Village_02 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985769806718123
 Transform:
@@ -1406,11 +1582,11 @@ Transform:
   m_GameObject: {fileID: 7120461124395194114}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7136214, z: -0, w: -0.7005316}
-  m_LocalPosition: {x: 13.11, y: 6.2063766, z: 21.93}
-  m_LocalScale: {x: 1, y: 1, z: 1.4622}
+  m_LocalPosition: {x: 0.0132754315, y: -2.291224, z: -1.5676128}
+  m_LocalScale: {x: 0.76196283, y: 0.76196283, z: 1.1141421}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 178985768962339786}
+  m_Father: {fileID: 1766263173218665966}
   m_LocalEulerAnglesHint: {x: 0, y: -268.939, z: 0}
 --- !u!33 &7120461124398467894
 MeshFilter:
@@ -1473,7 +1649,7 @@ GameObject:
   - component: {fileID: 178985769598597303}
   - component: {fileID: 7120461124475339248}
   - component: {fileID: 7120461124474301182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Hut_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1556,7 +1732,7 @@ GameObject:
   - component: {fileID: 178985768771555882}
   - component: {fileID: 7120461124485211361}
   - component: {fileID: 7120461124486336079}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Fence_02 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1639,12 +1815,12 @@ GameObject:
   - component: {fileID: 178985767942163081}
   - component: {fileID: 7120461124714702100}
   - component: {fileID: 7120461124714009944}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Village_02 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985767942163081
 Transform:
@@ -1722,7 +1898,7 @@ GameObject:
   - component: {fileID: 178985767842183378}
   - component: {fileID: 7120461124746734192}
   - component: {fileID: 7120461124748050654}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Fence_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1805,12 +1981,12 @@ GameObject:
   - component: {fileID: 178985768030510887}
   - component: {fileID: 7120461125037928634}
   - component: {fileID: 7120461125036703990}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Village_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985768030510887
 Transform:
@@ -1888,7 +2064,7 @@ GameObject:
   - component: {fileID: 178985768398395300}
   - component: {fileID: 7120461125066491186}
   - component: {fileID: 7120461125065896474}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_House_Base_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1904,11 +2080,11 @@ Transform:
   m_GameObject: {fileID: 7120461125067635806}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.092577, y: 9.213379, z: 23.987335}
-  m_LocalScale: {x: 1.3124, y: 1.3124, z: 1.3124}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 178985768962339786}
+  m_Father: {fileID: 1766263173218665966}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7120461125066491186
 MeshFilter:
@@ -1971,7 +2147,7 @@ GameObject:
   - component: {fileID: 178985768309160324}
   - component: {fileID: 7120461125219819342}
   - component: {fileID: 7120461125218694624}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Fence_02 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2054,7 +2230,7 @@ GameObject:
   - component: {fileID: 178985769323638151}
   - component: {fileID: 7120461125273702012}
   - component: {fileID: 7120461125274903762}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Fence_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2137,12 +2313,12 @@ GameObject:
   - component: {fileID: 178985768771311686}
   - component: {fileID: 7120461125508200357}
   - component: {fileID: 7120461125509138409}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Bld_Village_02 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985768771311686
 Transform:
@@ -2220,12 +2396,13 @@ GameObject:
   - component: {fileID: 178985768759807769}
   - component: {fileID: 7120461125515567236}
   - component: {fileID: 7120461125514350792}
-  m_Layer: 0
+  - component: {fileID: 8917229669239540474}
+  m_Layer: 6
   m_Name: SM_Bld_Village_02 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &178985768759807769
 Transform:
@@ -2292,3 +2469,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8917229669239540474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7120461125516754096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
