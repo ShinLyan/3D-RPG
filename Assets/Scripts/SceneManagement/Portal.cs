@@ -17,10 +17,9 @@ namespace RPG.SceneManagement
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private DestinationIdentifier _destination;
 
-        [Header("FadeOutIn")]
-        [SerializeField] private float _fadeOutTime = 0.5f;
-        [SerializeField] private float _fadeInTime = 1f;
-        [SerializeField] private float _fadeWaitTime = 0.5f;
+        private const float FadeOutTime = 0.5f;
+        private const float FadeInTime = 2f;
+        private const float FadeWaitTime = 0.5f;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -34,7 +33,7 @@ namespace RPG.SceneManagement
 
             SwitchPlayerMovement(false); // Чтобы персонаж не двигался до загрузки другой сцены
 
-            yield return Fader.Instance.FadeOut(_fadeOutTime);
+            yield return Fader.Instance.FadeOut(FadeOutTime);
 
             SavingWrapper.Save();
 
@@ -47,8 +46,8 @@ namespace RPG.SceneManagement
 
             SavingWrapper.Save();
 
-            yield return new WaitForSeconds(_fadeWaitTime);
-            yield return Fader.Instance.FadeIn(_fadeInTime);
+            yield return new WaitForSeconds(FadeWaitTime);
+            Fader.Instance.FadeIn(FadeInTime);
 
             SwitchPlayerMovement(true);
 
@@ -57,8 +56,8 @@ namespace RPG.SceneManagement
 
         private void SwitchPlayerMovement(bool enabled)
         {
-            var _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-            _playerController.enabled = enabled;
+            var playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerController.enabled = enabled;
         }
 
         private void UpdatePlayerPosition(Portal portal)
