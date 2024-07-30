@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2368d88c75cf5924a8858f4f0dbd97fb, type: 3}
   m_Name: BowBlueTrail
   m_EditorClassIdentifier: 
-  _equippedPrefab: {fileID: 9165430572820535548, guid: 2c6137490cdd8a342a4daf1bcfcb7dbf, type: 3}
+  _equippedPrefab: {fileID: 3208183464822429782, guid: 2c6137490cdd8a342a4daf1bcfcb7dbf, type: 3}
   _animatorOverrideController: {fileID: 22100000, guid: 6a4f39ee29ca703479497fb6a12a7e7b, type: 2}
-  _damage: 2
-  _attackRange: 20
   _isRightHanded: 0
   _projectilePrefab: {fileID: 6156103458912133026, guid: a672612d1a8499a4396f5f7428dde389, type: 3}
+  _damage: 2
+  _percentageDamageBonus: 0
+  _attackRange: 20

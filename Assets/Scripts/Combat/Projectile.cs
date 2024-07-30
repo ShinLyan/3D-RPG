@@ -1,6 +1,8 @@
 using RPG.Attributes;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Combat
 {
@@ -9,6 +11,8 @@ namespace RPG.Combat
         [SerializeField] private float _speed;
         [SerializeField] private bool _isHoming;
         [SerializeField] private GameObject _hitEffect;
+        [SerializeField] private GameObject[] _destroyOnHit;
+        [SerializeField] private UnityEvent _onHit;
         private Health _target;
         private float _damage;
         private GameObject _instigator;
@@ -45,32 +49,23 @@ namespace RPG.Combat
             if (other.GetComponent<Health>() != _target || _target.IsDead) return;
 
             _target.TakeDamage(_instigator, _damage);
+            _onHit.Invoke();
             if (_hitEffect) SpawnHitEffect();
-            HideProjectile();
+            DestroyOnHit();
             _target = null;
         }
 
         private void SpawnHitEffect()
         {
-            GameObject hitEffect = Instantiate(_hitEffect, GetAimLocation(_target.transform), transform.rotation);
-            StartCoroutine(DestroyHitEffect(hitEffect));
+            GameObject hitEffect = Instantiate(
+                _hitEffect, GetAimLocation(_target.transform), transform.rotation);
         }
 
-        private IEnumerator DestroyHitEffect(GameObject hitEffect)
+        private void DestroyOnHit()
         {
-            var particleSystem = hitEffect.GetComponent<ParticleSystem>();
-            while (particleSystem.IsAlive())
+            foreach (GameObject toDestroy in _destroyOnHit)
             {
-                yield return null;
-            }
-            Destroy(hitEffect);
-        }
-
-        private void HideProjectile()
-        {
-            foreach (Transform child in transform)
-            {
-                child.gameObject.SetActive(false);
+                toDestroy.SetActive(false);
             }
         }
 

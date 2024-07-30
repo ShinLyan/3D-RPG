@@ -2,6 +2,7 @@ using RPG.Core;
 using RPG.Saving;
 using RPG.Stats;
 using RPG.Utils;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +11,8 @@ namespace RPG.Attributes
     public class Health : MonoBehaviour, ISaveable
     {
         [SerializeField, Range(0, 100)] private int _regenerationPercentage;
-        [SerializeField] private UnityEvent<float> _takeDamage;
+        [SerializeField] private UnityEvent<float> _onTakeDamage;
+        [SerializeField] private UnityEvent _onDie;
         private BaseStats _baseStats;
         private LazyValue<float> _healthPoints;
 
@@ -57,12 +59,13 @@ namespace RPG.Attributes
 
             if (HealthPoints == 0)
             {
+                _onDie.Invoke();
                 Die();
                 AwardExperience(instigator);
             }
             else
             {
-                _takeDamage.Invoke(damage);
+                _onTakeDamage.Invoke(damage);
             }
         }
 
@@ -84,7 +87,12 @@ namespace RPG.Attributes
             experience.GainExperience(_baseStats.GetStat(Stat.ExperienceReward));
         }
 
-        #region Saving
+        public void Heal(float healthToRestore)
+        {
+            HealthPoints = Mathf.Min(HealthPoints + healthToRestore, MaxHealthPoints);
+        }
+
+        #region ISaveable
         public object CaptureState() => HealthPoints;
 
         public void RestoreState(object state)

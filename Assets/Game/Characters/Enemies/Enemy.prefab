@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthBar
       objectReference: {fileID: 0}
+    - target: {fileID: 2618265890003395911, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6050156651999145673, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
