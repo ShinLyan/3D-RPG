@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace RPG.Stats
 {
+    [RequireComponent(typeof(BaseStats))]
     public class Experience : MonoBehaviour, ISaveable
     {
         [SerializeField] private float _experiencePoints;

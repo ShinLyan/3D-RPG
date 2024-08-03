@@ -8,8 +8,10 @@ using UnityEngine.Events;
 
 namespace RPG.Attributes
 {
+    [RequireComponent(typeof(BaseStats))]
     public class Health : MonoBehaviour, ISaveable
     {
+        #region Fields and Properties
         [SerializeField, Range(0, 100)] private int _regenerationPercentage;
         [SerializeField] private UnityEvent<float> _onTakeDamage;
         [SerializeField] private UnityEvent _onDie;
@@ -21,10 +23,9 @@ namespace RPG.Attributes
             get => _healthPoints.Value;
             private set => _healthPoints.Value = value;
         }
-
         public float MaxHealthPoints => _baseStats.GetStat(Stat.Health);
-
         public bool IsDead { get; private set; }
+        #endregion
 
         private void Awake()
         {

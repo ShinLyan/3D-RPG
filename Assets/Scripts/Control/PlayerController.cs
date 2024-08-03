@@ -88,7 +88,6 @@ namespace RPG.Control
                 distances[i] = hits[i].distance;
             }
             System.Array.Sort(distances, hits);
-
             return hits;
         }
 
@@ -163,9 +162,6 @@ namespace RPG.Control
         }
         #endregion
 
-        private static Ray GetMouseRay()
-        {
-            return Camera.main.ScreenPointToRay(Input.mousePosition);
-        }
+        private static Ray GetMouseRay() => Camera.main.ScreenPointToRay(Input.mousePosition);
     }
 }
