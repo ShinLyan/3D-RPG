@@ -12,6 +12,7 @@ namespace RPG.Stats
         [SerializeField] private Progression _progression;
         [SerializeField] private DestroyAfterEffect _levelUpParticleEffect;
         [SerializeField] private bool _shouldUseModifiers;
+        [SerializeField] private AudioSource _levelUpSound;
         private Experience _experience;
         private LazyValue<int> _currentLevel;
 
@@ -21,7 +22,7 @@ namespace RPG.Stats
             private set => _currentLevel.Value = value;
         }
 
-        public event Action OnLevelUp;
+        public event System.Action OnLevelUp;
 
         private void Awake()
         {
@@ -53,7 +54,11 @@ namespace RPG.Stats
             for (int level = 1; level <= penultimateLevel; level++)
             {
                 float XPToLevelUp = _progression.GetStat(Stat.ExperienceToLevelUp, _characterClass, level);
-                if (XPToLevelUp > currentXP) return level;
+                if (XPToLevelUp > currentXP)
+                {
+                    _experience.SetExperienceToLevelUp(XPToLevelUp);
+                    return level;
+                }
             }
             return penultimateLevel + 1;
         }
@@ -65,14 +70,14 @@ namespace RPG.Stats
             {
                 CurrentLevel = newLevel;
                 OnLevelUp();
-                LevelUpEffect();
+                PlayLevelUpEffect();
+                PlayLevelUpSound();
             }
         }
 
-        private void LevelUpEffect()
-        {
-            Instantiate(_levelUpParticleEffect, transform);
-        }
+        private void PlayLevelUpEffect() => Instantiate(_levelUpParticleEffect, transform);
+
+        private void PlayLevelUpSound() => _levelUpSound.Play();
 
         public float GetStat(Stat stat) => !_shouldUseModifiers ? GetBaseStat(stat) :
             (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat) / 100);

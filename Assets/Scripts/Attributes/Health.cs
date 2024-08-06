@@ -14,6 +14,7 @@ namespace RPG.Attributes
         #region Fields and Properties
         [SerializeField, Range(0, 100)] private int _regenerationPercentage;
         [SerializeField] private UnityEvent<float> _onTakeDamage;
+        [SerializeField] private UnityEvent<float> _onHeal;
         [SerializeField] private UnityEvent _onDie;
         private BaseStats _baseStats;
         private LazyValue<float> _healthPoints;
@@ -66,7 +67,7 @@ namespace RPG.Attributes
             }
             else
             {
-                _onTakeDamage.Invoke(damage);
+                _onTakeDamage.Invoke(-damage);
             }
         }
 
@@ -91,6 +92,7 @@ namespace RPG.Attributes
         public void Heal(float healthToRestore)
         {
             HealthPoints = Mathf.Min(HealthPoints + healthToRestore, MaxHealthPoints);
+            _onHeal.Invoke(healthToRestore);
         }
 
         #region ISaveable

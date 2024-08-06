@@ -16,7 +16,7 @@ namespace RPG.Combat
         private float _timeSinceLastAttack = Mathf.Infinity;
         private Animator _animator;
         private Mover _mover;
-        public Health Target { get; private set; }
+        private Health _target;
 
         [Header("Weapons")]
         [SerializeField] private WeaponConfig _defaultWeapon;
@@ -30,9 +30,6 @@ namespace RPG.Combat
             get => _currentWeapon.Value;
             set => _currentWeapon.Value = value;
         }
-
-        private bool IsInAttackRange =>
-            Vector3.Distance(transform.position, Target.transform.position) < _currentWeaponConfig.AttackRange;
         #endregion
 
         private void Awake()
@@ -52,16 +49,16 @@ namespace RPG.Combat
         {
             _timeSinceLastAttack += Time.deltaTime;
 
-            if (!Target || Target.IsDead) return;
+            if (!_target || _target.IsDead) return;
 
-            if (IsInAttackRange)
+            if (GetIsInAttackRange(_target.transform))
             {
                 _mover.Cancel();
                 AttackBehaviour();
             }
             else
             {
-                _mover.MoveTo(Target.transform.position);
+                _mover.MoveTo(_target.transform.position);
             }
         }
 
@@ -69,7 +66,7 @@ namespace RPG.Combat
         private Weapon SetupDefaultWeapon() => AttachWeapon(_defaultWeapon);
 
         private Weapon AttachWeapon(WeaponConfig weapon) =>
-            weapon.Spawn(_leftHandTransform, _rightHandTransform, GetComponent<Animator>());
+            weapon.Spawn(_leftHandTransform, _rightHandTransform, _animator);
 
         public void EquipWeapon(WeaponConfig weapon)
         {
@@ -80,9 +77,12 @@ namespace RPG.Combat
         private WeaponConfig LoadWeapon(string weaponName) => Resources.Load<WeaponConfig>(weaponName);
         #endregion
 
+        private bool GetIsInAttackRange(Transform target) =>
+            Vector3.Distance(transform.position, target.position) < _currentWeaponConfig.AttackRange;
+
         private void AttackBehaviour()
         {
-            transform.LookAt(Target.transform);
+            transform.LookAt(_target.transform);
 
             if (_timeSinceLastAttack > _timeBetweenAttacks)
             {
@@ -104,7 +104,7 @@ namespace RPG.Combat
         #region Animation Events
         private void Hit()
         {
-            if (!Target) return;
+            if (!_target) return;
 
             float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
             if (CurrentWeapon)
@@ -115,11 +115,11 @@ namespace RPG.Combat
             if (_currentWeaponConfig.HasProjectTile)
             {
                 _currentWeaponConfig.LaunchProjecttile(
-                    _leftHandTransform, _rightHandTransform, Target, gameObject, damage);
+                    _leftHandTransform, _rightHandTransform, _target, gameObject, damage);
             }
             else
             {
-                Target.TakeDamage(gameObject, damage);
+                _target.TakeDamage(gameObject, damage);
             }
         }
 
@@ -128,7 +128,10 @@ namespace RPG.Combat
 
         public bool CanAttack(GameObject combatTarget)
         {
-            if (!combatTarget) return false;
+            if (!combatTarget ||
+                (!_mover.CanMoveTo(combatTarget.transform.position) &&
+                !GetIsInAttackRange(combatTarget.transform)))
+                return false;
 
             var target = combatTarget.GetComponent<Health>();
             return combatTarget && target && !target.IsDead;
@@ -137,13 +140,13 @@ namespace RPG.Combat
         public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            Target = combatTarget.GetComponent<Health>();
+            _target = combatTarget.GetComponent<Health>();
         }
 
         public void Cancel()
         {
             StopAttack();
-            Target = null;
+            _target = null;
             _mover.Cancel();
         }
 

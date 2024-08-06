@@ -10,11 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2287729652077350511, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
       propertyPath: m_Name
-      value: HealthBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 2618265890003395911, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
+      value: EnemyHealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 6050156651999145673, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
       propertyPath: m_LocalPosition.x
@@ -57,7 +53,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8978434448898810823, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
-      propertyPath: _healthComponent
+      propertyPath: _ownerHealth
       value: 
       objectReference: {fileID: 4658534348473262517}
     m_RemovedComponents: []
@@ -65,6 +61,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
+--- !u!114 &5473328181763456894 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8978434448898810823, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
+  m_PrefabInstance: {fileID: 3993818159669533881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e760e8ccac989f241b3ca8ae08e7957b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7249279309854765680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6050156651999145673, guid: 9e67afd598ea325489b2f811681c0d81, type: 3}
@@ -163,6 +170,86 @@ PrefabInstance:
       propertyPath: _healthPoints
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 5473328181763456894}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: HideHealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 567704050746062283}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 5473328181763456894}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Aggrevate
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: UpdateBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: RPG.UI.HealthBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: RPG.Control.AIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: RPG.UI.HealthBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 578905922027787946, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3015593010746146754, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -170,6 +257,10 @@ PrefabInstance:
     - target: {fileID: 3015593010746146754, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201682076706887378, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
+      propertyPath: m_Name
+      value: PopupTextSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 5059639996573577082, guid: b87c2f1bdff99c34785fa03618a65ac2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -292,8 +383,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d8ff790b2ef38a499c96be746dec3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chaseDistance: 5
+  _detectionRadius: 5
   _allowedDistanceDeparture: 30
+  _aggroCooldownTime: 5
+  _shoutRadius: 5
   _suspicionTime: 5
   _patrolPath: {fileID: 336973387784190924}
   _waypointTolerance: 1

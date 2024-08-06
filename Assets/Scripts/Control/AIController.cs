@@ -3,6 +3,7 @@ using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Utils;
+using System;
 using UnityEngine;
 
 namespace RPG.Control
@@ -11,10 +12,15 @@ namespace RPG.Control
     {
         #region Fields and Properties
         [Header("Attack Behaviour")]
-        [SerializeField, Range(1f, 10f)] private float _chaseDistance = 5f;
+        [SerializeField, Range(1f, 100f), Tooltip("Радиус обнаружения врага.")]
+        private float _detectionRadius = 5f;
         [SerializeField] private float _allowedDistanceDeparture = 30f;
+        [SerializeField] private float _aggroCooldownTime = 5f;
+        [SerializeField, Tooltip("Радиус крика, который привлекает внимание мобов вокруг.")] private float _shoutRadius = 5f;
+
         private Fighter _fighter;
         private GameObject _player;
+        private float _timeSinceAggrevated = Mathf.Infinity;
 
         [Header("Suspition Behaviour")]
         [SerializeField] private float _suspicionTime = 5f;
@@ -57,7 +63,7 @@ namespace RPG.Control
         {
             if (_health.IsDead) return;
 
-            if (InAttackRangeOfPlayer() && _fighter.CanAttack(_player) &&
+            if (IsAggrevated() && _fighter.CanAttack(_player) &&
                 !IsFarFromStartPosition(GuardPosition))
             {
                 AttackBehaviour();
@@ -74,10 +80,11 @@ namespace RPG.Control
         }
 
         #region AttackBehaviour
-        private bool InAttackRangeOfPlayer()
+        private bool IsAggrevated()
         {
             float distanceToPlayer = Vector3.Distance(_player.transform.position, transform.position);
-            return distanceToPlayer < _chaseDistance;
+            bool inAttackRangeOfPlayer = distanceToPlayer < _detectionRadius;
+            return inAttackRangeOfPlayer || _timeSinceAggrevated < _aggroCooldownTime;
         }
 
         private bool IsFarFromStartPosition(Vector3 startPosition)
@@ -89,6 +96,25 @@ namespace RPG.Control
         {
             _timeSinceLastSawPlayer = 0;
             _fighter.Attack(_player);
+
+            AggrevateNearbyEnemies();
+        }
+
+        private void AggrevateNearbyEnemies()
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, _shoutRadius, Vector3.up, 0);
+            foreach (RaycastHit hit in hits)
+            {
+                var ai = hit.collider.GetComponent<AIController>();
+                if (ai == null) continue;
+
+                ai.Aggrevate();
+            }
+        }
+
+        public void Aggrevate()
+        {
+            _timeSinceAggrevated = 0;
         }
         #endregion
 
@@ -131,24 +157,21 @@ namespace RPG.Control
             _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);
         }
 
-        private Vector3 GetCurrentWaypoint()
-        {
-            return _patrolPath.GetWaypoint(_currentWaypointIndex);
-        }
+        private Vector3 GetCurrentWaypoint() => _patrolPath.GetWaypoint(_currentWaypointIndex);
         #endregion
 
         private void UpdateTimers()
         {
             _timeSinceLastSawPlayer += Time.deltaTime;
             _timeSinceArrivedAtWaypoint += Time.deltaTime;
+            _timeSinceAggrevated += Time.deltaTime;
         }
 
         #region Debug
-        // Called by Unity
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, _chaseDistance);
+            Gizmos.DrawWireSphere(transform.position, _detectionRadius);
         }
         #endregion
     }

@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: _characterClass
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 446811447462322861, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 567704050746062283, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
+      propertyPath: _detectionRadius
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1052061471879600229, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

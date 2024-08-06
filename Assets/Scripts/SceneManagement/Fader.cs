@@ -5,9 +5,13 @@ namespace RPG.SceneManagement
 {
     public class Fader : MonoBehaviour
     {
+        public static Fader Instance;
+        public const float FadeOutTime = 0.5f;
+        public const float FadeInTime = 2f;
+        public const float FadeWaitTime = 0.5f;
+
         private CanvasGroup _canvasGroup;
         private Coroutine _currentActiveFade;
-        public static Fader Instance;
 
         private void Awake()
         {
@@ -15,14 +19,16 @@ namespace RPG.SceneManagement
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public void FadeOutImmediate()
-        {
-            _canvasGroup.alpha = 1f;
-        }
+        public void FadeOutImmediate() => _canvasGroup.alpha = 1f;
 
         public Coroutine FadeOut(float time) => Fade(1f, time);
 
-        public Coroutine FadeIn(float time) => Fade(0f, time);
+        public Coroutine FadeIn(float time)
+        {
+            print("FadeIn");
+            return Fade(0f, time);
+
+        }
 
         private Coroutine Fade(float target, float time)
         {

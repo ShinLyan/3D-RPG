@@ -8,9 +8,10 @@
     {
         private T _value;
         private bool _initialized;
-        private readonly InitializerDelegate _initializer;
-
+        
         public delegate T InitializerDelegate();
+
+        private readonly InitializerDelegate _initializer;
 
         /// <summary>
         /// Setup the container but don't initialise the value yet.

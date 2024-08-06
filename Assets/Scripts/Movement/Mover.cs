@@ -10,14 +10,17 @@ namespace RPG.Movement
     {
         [SerializeField] private Transform _target;
         [SerializeField] private float _maxSpeed = 6f;
-
         private NavMeshAgent _navMeshAgent;
         private Health _health;
+        private Animator _animator;
+
+        private const float MaxNavPathLength = 30f;
 
         private void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _health = GetComponent<Health>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -33,13 +36,36 @@ namespace RPG.Movement
             float speed = localVelocity.z;
 
             const string ForwardSpeed = "ForwardSpeed";
-            GetComponent<Animator>().SetFloat(ForwardSpeed, speed);
+            _animator.SetFloat(ForwardSpeed, speed);
         }
 
         public void StartMoveAction(Vector3 destination, float speedFraction = 1f)
         {
             GetComponent<ActionScheduler>().StartAction(this);
             MoveTo(destination, speedFraction);
+        }
+
+        public bool CanMoveTo(Vector3 destination)
+        {
+            var path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path);
+            if (!hasPath) return false;
+
+            if (path.status != NavMeshPathStatus.PathComplete) return false;
+            if (GetPathLength(path) > MaxNavPathLength) return false;
+
+            return true;
+        }
+
+        private float GetPathLength(NavMeshPath path)
+        {
+            float total = 0;
+            if (path.corners.Length < 2) return total;
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+            return total;
         }
 
         public void MoveTo(Vector3 destination, float speedFraction = 1f)

@@ -8,18 +8,14 @@ namespace RPG.SceneManagement
 {
     public class Portal : MonoBehaviour
     {
+        [SerializeField] private GameScene _sceneToLoad;
+        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private DestinationIdentifier _destination;
+
         private enum DestinationIdentifier
         {
             A, B, C, D, E
         }
-
-        [SerializeField] private int _sceneToLoad;
-        [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private DestinationIdentifier _destination;
-
-        private const float FadeOutTime = 0.5f;
-        private const float FadeInTime = 2f;
-        private const float FadeWaitTime = 0.5f;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -27,17 +23,18 @@ namespace RPG.SceneManagement
             StartCoroutine(Transition());
         }
 
-        private IEnumerator Transition()
+        public IEnumerator Transition()
         {
+            transform.parent = null;
             DontDestroyOnLoad(gameObject);
 
             SwitchPlayerMovement(false); // Чтобы персонаж не двигался до загрузки другой сцены
 
-            yield return Fader.Instance.FadeOut(FadeOutTime);
+            yield return Fader.Instance.FadeOut(Fader.FadeOutTime);
 
             SavingWrapper.Save();
 
-            yield return SceneManager.LoadSceneAsync(_sceneToLoad);
+            yield return SceneManager.LoadSceneAsync((int)_sceneToLoad);
 
             SavingWrapper.Load();
 
@@ -46,8 +43,8 @@ namespace RPG.SceneManagement
 
             SavingWrapper.Save();
 
-            yield return new WaitForSeconds(FadeWaitTime);
-            Fader.Instance.FadeIn(FadeInTime);
+            yield return new WaitForSeconds(Fader.FadeWaitTime);
+            Fader.Instance.FadeIn(Fader.FadeInTime);
 
             SwitchPlayerMovement(true);
 

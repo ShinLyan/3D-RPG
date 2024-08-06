@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3046942536301692139, guid: 2b4a8e1bfb8ba734fb8e4943ff2a2ada, type: 3}
+      propertyPath: _healthToRestore
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4767736692137571434, guid: 2b4a8e1bfb8ba734fb8e4943ff2a2ada, type: 3}
       propertyPath: m_Radius
       value: 0.3

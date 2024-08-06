@@ -9,12 +9,14 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private float maxNavMeshProjectionDistance = 1f;
-        [SerializeField] private float maxNavPathLength = 40f;
         [SerializeField] private CursorMapping[] _cursorMappings;
         private Mover _mover;
         private Fighter _fighter;
         private Health _health;
+
+        /// <summary> Радиус, в пределах которого можно навести курсор и атаковать врага.</summary>
+        private const float SphereCastRadius = 1f;
+        private const float MaxNavMeshProjectionDistance = 1f;
 
         private bool IsPlayerDead => _health.IsDead;
 
@@ -60,7 +62,7 @@ namespace RPG.Control
 
         private bool InteractWithComponent()
         {
-            RaycastHit[] hits = RaycastAllSorted();
+            RaycastHit[] hits = SphereCastAllSorted();
             foreach (RaycastHit hit in hits)
             {
                 var raycastables = hit.transform.GetComponents<IRaycastable>();
@@ -76,10 +78,9 @@ namespace RPG.Control
             return false;
         }
 
-        private RaycastHit[] RaycastAllSorted()
+        private RaycastHit[] SphereCastAllSorted()
         {
-            // Get all hits
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            RaycastHit[] hits = Physics.SphereCastAll(GetMouseRay(), SphereCastRadius);
 
             // Sort the hits by distance
             var distances = new float[hits.Length];
@@ -96,6 +97,8 @@ namespace RPG.Control
             bool hasHit = RaycastNavMesh(out Vector3 target);
             if (hasHit)
             {
+                if (!_mover.CanMoveTo(target)) return false;
+
                 if (Input.GetMouseButton(1))
                 {
                     _mover.StartMoveAction(target);
@@ -116,30 +119,12 @@ namespace RPG.Control
 
             // Find nearest NavMesh point
             bool hasCastToNavMesh = NavMesh.SamplePosition(hit.point, out NavMeshHit navMeshHit,
-                maxNavMeshProjectionDistance, NavMesh.AllAreas);
+                MaxNavMeshProjectionDistance, NavMesh.AllAreas);
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position;
 
-            var path = new NavMeshPath();
-            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
-            if (!hasPath) return false;
-            if (path.status != NavMeshPathStatus.PathComplete) return false;
-
-            if (GetPathLength(path) > maxNavPathLength) return false;
-
             return true;
-        }
-
-        private float GetPathLength(NavMeshPath path)
-        {
-            float total = 0;
-            if (path.corners.Length < 2) return total;
-            for (int i = 0; i < path.corners.Length - 1; i++)
-            {
-                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
-            }
-            return total;
         }
 
         #region Cursor
