@@ -10,7 +10,7 @@ namespace RPG.UI.PopupText
         public void SetTextValue(float value)
         {
             _popupText.color = value > 0 ? Color.green : Color.red;
-            _popupText.text = $"{Mathf.Abs(value)}";
+            _popupText.text = $"{(int)Mathf.Abs(value)}";
         }
 
         public void DestroyText()

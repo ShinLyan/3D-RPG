@@ -7,6 +7,7 @@ namespace RPG.Cinematics
 {
     public class CinematicControlRemover : MonoBehaviour
     {
+        [SerializeField] private GameObject _canvasWithText;
         private GameObject _player;
 
         private void Awake()
@@ -32,11 +33,13 @@ namespace RPG.Cinematics
         {
             _player.GetComponent<ActionScheduler>().CancelCurrentAction();
             _player.GetComponent<PlayerController>().enabled = false;
+            _canvasWithText.SetActive(true);
         }
 
         private void EnableControl(PlayableDirector playableDirector)
         {
             _player.GetComponent<PlayerController>().enabled = true;
+            _canvasWithText.SetActive(false);
         }
     }
 }

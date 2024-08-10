@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InsideCastle.unity
     guid: 9d52b79bf013ed54f8b13e83533b54c3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Sandbox2.unity
     guid: 9e91290c9c913d44a8f08a99b1f70b87
   m_configObjects: {}

@@ -1,4 +1,5 @@
 using RPG.SceneManagement;
+using RPG.Stats;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,7 @@ namespace RPG.UI.Menu
         {
             NewGame,
             Continue,
+            ContinuePrevGame,
             Exit,
             ExitToMainMenu,
             Options,
@@ -41,6 +43,7 @@ namespace RPG.UI.Menu
             {
                 MenuButtonType.NewGame => NewGame,
                 MenuButtonType.Continue => Continue,
+                MenuButtonType.ContinuePrevGame => ContinuePrevGame,
                 MenuButtonType.Exit => Exit,
                 MenuButtonType.ExitToMainMenu => ExitToMainMenu,
                 MenuButtonType.Options => null,
@@ -64,8 +67,8 @@ namespace RPG.UI.Menu
         {
             foreach (var button in _menuButtons)
             {
-                if (button.Type != MenuButtonType.Continue) continue;
-                button.Button.gameObject.SetActive(SavingWrapper.SaveFileExist());
+                if (button.Type != MenuButtonType.ContinuePrevGame) continue;
+                button.Button.interactable = SavingWrapper.SaveFileExist();
             }
         }
 
@@ -84,7 +87,9 @@ namespace RPG.UI.Menu
             Destroy(gameObject);
         }
 
-        private void Continue() => StartCoroutine(ContinueCoroutine());
+        private void Continue() => GetComponent<PauseMenu>().SwitchPauseMenu();
+
+        private void ContinuePrevGame() => StartCoroutine(ContinueCoroutine());
 
         private IEnumerator ContinueCoroutine()
         {
@@ -104,8 +109,11 @@ namespace RPG.UI.Menu
         {
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
-            
-            SavingWrapper.Save();
+
+            if (!GameObject.FindWithTag("Player").GetComponent<Health>().IsDead)
+            {
+                SavingWrapper.Save();
+            }
 
             yield return Fader.Instance.FadeOut(Fader.FadeOutTime);
             yield return SceneManager.LoadSceneAsync((int)GameScene.MainMenu);

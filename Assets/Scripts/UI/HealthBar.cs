@@ -1,4 +1,4 @@
-using RPG.Attributes;
+using RPG.Stats;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -24,27 +24,38 @@ namespace RPG.UI
             Player
         }
 
+        private void OnEnable()
+        {
+            _ownerHealth.GetComponent<BaseStats>().OnLevelUp += UpdateBar;
+        }
+
+        private void OnDisable()
+        {
+            _ownerHealth.GetComponent<BaseStats>().OnLevelUp -= UpdateBar;
+        }
+
         private void Start()
         {
             UpdateBar();
+            SetBarImageFill(_ownerHealth.HealthPoints / _ownerHealth.MaxHealthPoints, true);
             if (_owner == HealthBarOwner.Enemy) SwitchBar(false);
         }
 
         public void UpdateBar()
         {
             if (_owner == HealthBarOwner.Enemy) SwitchBar(true);
-            SetBarText(_ownerHealth.HealthPoints, _ownerHealth.MaxHealthPoints);
+            SetBarText((int)_ownerHealth.HealthPoints, (int)_ownerHealth.MaxHealthPoints);
             SetBarImageFill(_ownerHealth.HealthPoints / _ownerHealth.MaxHealthPoints);
         }
 
         private void SetBarText(float currentValue, float maxValue)
         {
-            _healthText.text = $"HP  {currentValue} / {maxValue}";
+            _healthText.text = $"{currentValue} / {maxValue}";
         }
 
         private void SwitchBar(bool enabled) => _bar.SetActive(enabled);
 
-        private void SetBarImageFill(float newValue)
+        private void SetBarImageFill(float newValue, bool instantly = false)
         {
             // _previousValue > newValue :
             // True: Take Damage, False: Heal
@@ -56,8 +67,15 @@ namespace RPG.UI
             firstFillBar.fillAmount = newValue;
 
             // Второй бар заполняется плавно.
-            if (_currentCoroutine != null) StopCoroutine(_currentCoroutine);
-            _currentCoroutine = StartCoroutine(FillBarSmoothlyCoroutine(secondFillBar, newValue));
+            if (instantly)
+            {
+                secondFillBar.fillAmount = newValue;
+            }
+            else
+            {
+                if (_currentCoroutine != null) StopCoroutine(_currentCoroutine);
+                _currentCoroutine = StartCoroutine(FillBarSmoothlyCoroutine(secondFillBar, newValue));
+            }
 
             _previousValue = newValue;
         }

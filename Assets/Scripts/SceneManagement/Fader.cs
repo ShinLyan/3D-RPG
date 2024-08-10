@@ -23,12 +23,7 @@ namespace RPG.SceneManagement
 
         public Coroutine FadeOut(float time) => Fade(1f, time);
 
-        public Coroutine FadeIn(float time)
-        {
-            print("FadeIn");
-            return Fade(0f, time);
-
-        }
+        public Coroutine FadeIn(float time) => Fade(0f, time);
 
         private Coroutine Fade(float target, float time)
         {

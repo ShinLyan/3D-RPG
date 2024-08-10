@@ -32,6 +32,7 @@ namespace RPG.Saving
             }
         }
 
+        #region Setting GUID
 #if UNITY_EDITOR
         private static readonly Dictionary<string, SaveableEntity> globalLookup = new();
 
@@ -62,13 +63,8 @@ namespace RPG.Saving
             if (!globalLookup.ContainsKey(candidate) || globalLookup[candidate] == this)
                 return true;
 
-            if (globalLookup[candidate] == null)
-            {
-                globalLookup.Remove(candidate);
-                return true;
-            }
-
-            if (globalLookup[candidate].UniqueIdentifier != candidate)
+            if (globalLookup[candidate] == null ||
+                globalLookup[candidate].UniqueIdentifier != candidate)
             {
                 globalLookup.Remove(candidate);
                 return true;
@@ -76,5 +72,6 @@ namespace RPG.Saving
             return false;
         }
 #endif
+        #endregion
     }
 }

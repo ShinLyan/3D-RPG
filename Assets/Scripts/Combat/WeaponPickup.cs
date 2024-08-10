@@ -1,5 +1,5 @@
-using RPG.Attributes;
 using RPG.Control;
+using RPG.Stats;
 using System.Collections;
 using UnityEngine;
 
@@ -47,7 +47,7 @@ namespace RPG.Combat
 
         public bool HandleRaycast(PlayerController callingController)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(0))
             {
                 Pickup(callingController.gameObject);
             }

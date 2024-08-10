@@ -8,16 +8,31 @@ namespace RPG.UI
     {
         [SerializeField] private TMP_Text _levelText;
 
-        private BaseStats _baseStats;
+        private BaseStats _playerStats;
 
         private void Awake()
         {
-            _baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
+            _playerStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            _levelText.text = $"Level: {_baseStats.CurrentLevel}";
+            _playerStats.OnLevelUp += UpdateLevel;
+        }
+
+        private void OnDisable()
+        {
+            _playerStats.OnLevelUp -= UpdateLevel;
+        }
+
+        private void Start()
+        {
+            UpdateLevel();
+        }
+
+        private void UpdateLevel()
+        {
+            _levelText.text = $"{_playerStats.CurrentLevel}";
         }
     }
 }

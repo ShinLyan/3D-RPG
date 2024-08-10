@@ -18,4 +18,4 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 6609494780538182392, guid: a0c079e1231295c479d6473e1a7843ff, type: 3}
   _damage: 2
   _percentageDamageBonus: 0
-  _attackRange: 20
+  _attackRange: 10

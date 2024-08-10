@@ -28,6 +28,7 @@ namespace RPG.UI
         private void Start()
         {
             UpdateBar();
+            SetBarImageFill(_ownerExperience.ExperiencePoints / _ownerExperience.ExperienceToLevelUp, true);
         }
 
         private void UpdateBar()
@@ -41,10 +42,17 @@ namespace RPG.UI
             _experienceText.text = $"XP  {currentValue} / {maxValue}";
         }
 
-        private void SetBarImageFill(float newValue)
+        private void SetBarImageFill(float newValue, bool instantly = false)
         {
-            if (_currentCoroutine != null) StopCoroutine(_currentCoroutine);
-            _currentCoroutine = StartCoroutine(FillBarSmoothlyCoroutine(_fill, newValue));
+            if (instantly)
+            {
+                _fill.fillAmount = newValue;
+            }
+            else
+            {
+                if (_currentCoroutine != null) StopCoroutine(_currentCoroutine);
+                _currentCoroutine = StartCoroutine(FillBarSmoothlyCoroutine(_fill, newValue));
+            }
         }
 
         private static IEnumerator FillBarSmoothlyCoroutine(Image bar, float value)

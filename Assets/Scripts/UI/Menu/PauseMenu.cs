@@ -4,38 +4,37 @@ namespace RPG.UI.Menu
 {
     public class PauseMenu : MonoBehaviour
     {
-        private bool _pauseActive;
-
-        private bool PauseActive
-        {
-            get => _pauseActive;
-            set
-            {
-                _pauseActive = value;
-                SwitchChildren(_pauseActive);
-            }
-        }
+        [SerializeField] private GameObject _options;
 
         private void Start()
         {
-            PauseActive = false;
-            SwitchChildren(PauseActive);
+            HidePauseMenu();
         }
 
         private void Update()
         {
             if (Input.GetKeyUp(KeyCode.Escape))
             {
-                PauseActive = !PauseActive;
+                if (_options && _options.activeSelf)
+                {
+                    _options.SetActive(false);
+                    return;
+                }
+                SwitchPauseMenu();
             }
         }
 
-        private void SwitchChildren(bool enabled)
+        private void HidePauseMenu()
         {
-            foreach (Transform child in transform)
-            {
-                child.gameObject.SetActive(enabled);
-            }
+            var blackBg = transform.GetChild(0).gameObject;
+            blackBg.SetActive(false);
+        }
+
+        public void SwitchPauseMenu()
+        {
+            var blackBg = transform.GetChild(0).gameObject;
+            bool enabled = !blackBg.activeSelf;
+            blackBg.SetActive(enabled);
         }
     }
 }

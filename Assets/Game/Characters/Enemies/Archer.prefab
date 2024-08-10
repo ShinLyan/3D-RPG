@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 567704050746062283, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
       propertyPath: _detectionRadius
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1052061471879600229, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: _defaultWeapon
       value: 
       objectReference: {fileID: 11400000, guid: 129b05dbfcb10b94ab9aa1d50448b299, type: 2}
+    - target: {fileID: 2401211262557800974, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
+      propertyPath: _timeBetweenAttacks
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7023177033002698973, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
       propertyPath: m_Name
       value: Archer
@@ -72,6 +76,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3f6fc0cf5e5d31c458bc74ede87cb8ae, type: 2}
+    - target: {fileID: 9157129065193627050, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9157129065193677794, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9157129065193689962, guid: 6b61495db1c26924bb9e0dc3db7db3d6, type: 3}
       propertyPath: m_IsActive
       value: 0

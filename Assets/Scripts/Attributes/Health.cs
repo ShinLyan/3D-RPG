@@ -1,12 +1,12 @@
 using RPG.Core;
 using RPG.Saving;
-using RPG.Stats;
+using RPG.SceneManagement;
 using RPG.Utils;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace RPG.Attributes
+namespace RPG.Stats
 {
     [RequireComponent(typeof(BaseStats))]
     public class Health : MonoBehaviour, ISaveable
@@ -79,6 +79,8 @@ namespace RPG.Attributes
             const string TriggerName = "Die";
             GetComponent<Animator>().SetTrigger(TriggerName);
             GetComponent<ActionScheduler>().CancelCurrentAction();
+
+            SavingWrapper.Delete();
         }
 
         private void AwardExperience(GameObject instigator)

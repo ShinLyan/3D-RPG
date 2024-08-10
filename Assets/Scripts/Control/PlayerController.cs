@@ -1,6 +1,6 @@
-using RPG.Attributes;
 using RPG.Combat;
 using RPG.Movement;
+using RPG.Stats;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -138,10 +138,7 @@ namespace RPG.Control
         {
             foreach (var mapping in _cursorMappings)
             {
-                if (mapping.CursorType == cursorType)
-                {
-                    return mapping;
-                }
+                if (mapping.CursorType == cursorType) return mapping;
             }
             return _cursorMappings[0];
         }
